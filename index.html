@@ -1,0 +1,733 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Проєкти для soft skills</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&family=Unbounded:wght@500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: sticky tab bar over a single reading column; task cards expand in place; utilitarian, paper-cool palette. */
+:root {
+  --bg: #f3f6f7;
+  --surface: #ffffff;
+  --surface-2: #eaf0f2;
+  --ink: #14212a;
+  --muted: #58697440;
+  --muted-t: #566872;
+  --line: #d6dfe3;
+  --accent: #0b6b78;
+  --accent-ink: #ffffff;
+  --accent-soft: #dff0f2;
+  --k-crit: #2b6cb0;
+  --k-comm: #b7791f;
+  --k-team: #2f855a;
+  --k-creat: #b83280;
+  --k-resp: #6b46c1;
+  --font-body: "Onest", "Segoe UI", system-ui, sans-serif;
+  --font-display: "Unbounded", "Onest", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e171c; --surface: #162229; --surface-2: #1d2c34; --ink: #e5eef2; --muted-t: #9fb2bb;
+    --line: #2b3b44; --accent: #56c4d1; --accent-ink: #0b1a1e; --accent-soft: #17343a;
+    --k-crit: #6cb0f2; --k-comm: #e4a94f; --k-team: #5fc98f; --k-creat: #ee7fbd; --k-resp: #a98bf0;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e171c; --surface: #162229; --surface-2: #1d2c34; --ink: #e5eef2; --muted-t: #9fb2bb;
+  --line: #2b3b44; --accent: #56c4d1; --accent-ink: #0b1a1e; --accent-soft: #17343a;
+  --k-crit: #6cb0f2; --k-comm: #e4a94f; --k-team: #5fc98f; --k-creat: #ee7fbd; --k-resp: #a98bf0;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 16px; line-height: 1.55;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0 48px;
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+.wrap { max-width: 1080px; margin: 0 auto; }
+button, input, select, textarea { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* header */
+.hero { padding: 28px 0 18px; display: grid; gap: 10px; }
+.eyebrow { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted-t); }
+h1 { font-family: var(--font-display); font-weight: 600; font-size: clamp(1.5rem, 4.6vw, 2.3rem); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -0.01em; }
+.lead { margin: 0; max-width: 68ch; color: var(--muted-t); font-size: 1.02rem; }
+.stats { display: flex; flex-wrap: wrap; gap: 8px 20px; font-family: var(--font-mono); font-size: 0.8rem; color: var(--muted-t); padding-top: 4px; }
+.stats b { color: var(--ink); font-weight: 500; }
+
+/* tabs */
+.tabbar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 9; background: var(--bg); border-bottom: 1px solid var(--line); margin: 0 calc(-1 * max(16px, env(safe-area-inset-left, 0px))); padding: 0 max(16px, env(safe-area-inset-left, 0px)); }
+.tabs { display: flex; gap: 4px; overflow-x: auto; max-width: 1080px; margin: 0 auto; scrollbar-width: none; }
+.tab { background: none; border: 0; border-bottom: 3px solid transparent; padding: 12px 14px 10px; cursor: pointer; color: var(--muted-t); font-weight: 500; white-space: nowrap; }
+.tab:hover { color: var(--ink); }
+.tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
+.panel { padding-top: 22px; display: grid; gap: 18px; }
+.panel[hidden] { display: none !important; }
+
+/* controls */
+.filters { display: grid; gap: 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px; }
+.frow { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.flabel { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted-t); min-width: 74px; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.seg button { background: var(--surface); border: 0; border-right: 1px solid var(--line); padding: 7px 14px; cursor: pointer; min-width: 48px; }
+.seg button:last-child { border-right: 0; }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+.chipbtn { display: inline-flex; align-items: center; gap: 7px; background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 5px 12px; cursor: pointer; font-size: 0.9rem; }
+.chipbtn[aria-pressed="true"] { background: var(--surface-2); border-color: var(--ink); }
+.dot { width: 9px; height: 9px; border-radius: 50%; flex: none; background: var(--ink); }
+.search { flex: 1 1 200px; min-width: 0; border: 1px solid var(--line); border-radius: 8px; padding: 7px 12px; background: var(--bg); }
+.btn { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 7px 14px; cursor: pointer; }
+.btn:hover { border-color: var(--ink); }
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 500; }
+.btn.primary:hover { filter: brightness(1.08); }
+.count { font-family: var(--font-mono); font-size: 0.8rem; color: var(--muted-t); margin-left: auto; }
+
+/* task cards */
+.list { display: grid; gap: 10px; }
+details.task { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+details.task[open] { border-color: var(--ink); }
+details.task[hidden] { display: none; }
+summary { list-style: none; cursor: pointer; padding: 14px 16px; display: grid; grid-template-columns: 62px minmax(0, 1fr) auto; gap: 4px 14px; align-items: start; }
+summary::-webkit-details-marker { display: none; }
+.grade { font-family: var(--font-display); font-weight: 600; font-size: 1.9rem; line-height: 1; grid-row: span 2; }
+.grade small { display: block; font-family: var(--font-mono); font-weight: 400; font-size: 0.68rem; letter-spacing: 0.08em; color: var(--muted-t); margin-top: 6px; text-transform: uppercase; }
+.ttl { font-weight: 600; font-size: 1.1rem; line-height: 1.3; }
+.topic { color: var(--muted-t); font-size: 0.92rem; }
+.meta { font-family: var(--font-mono); font-size: 0.74rem; color: var(--muted-t); text-align: right; display: grid; gap: 2px; }
+.chev { transition: transform 0.15s; display: inline-block; }
+details[open] .chev { transform: rotate(90deg); }
+.skills { grid-column: 2 / -1; display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.chip { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--line); border-radius: 999px; padding: 2px 10px 2px 8px; font-size: 0.82rem; }
+.body { border-top: 1px solid var(--line); padding: 16px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 28px; }
+.col { display: grid; gap: 16px; align-content: start; min-width: 0; }
+.blk h4 { margin: 0 0 6px; font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.09em; text-transform: uppercase; color: var(--muted-t); font-weight: 500; }
+.blk p { margin: 0; }
+.blk ol, .blk ul { margin: 0; padding-left: 1.2em; display: grid; gap: 5px; }
+.checks { list-style: none; padding: 0 !important; }
+.checks label { display: flex; gap: 9px; align-items: flex-start; cursor: pointer; }
+.checks input { margin-top: 5px; accent-color: var(--accent); flex: none; }
+.diff { display: grid; gap: 8px; }
+.diff div { background: var(--surface-2); border-radius: 8px; padding: 8px 12px; font-size: 0.94rem; }
+.diff b { font-weight: 600; }
+.actions { grid-column: 1 / -1; display: flex; gap: 8px; flex-wrap: wrap; border-top: 1px dashed var(--line); padding-top: 14px; }
+.empty { text-align: center; padding: 36px 16px; color: var(--muted-t); background: var(--surface); border: 1px dashed var(--line); border-radius: 10px; }
+
+/* rubric */
+.note { background: var(--accent-soft); border-radius: 10px; padding: 12px 16px; max-width: 78ch; }
+.note p { margin: 0; }
+.tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; min-width: 860px; }
+th, td { text-align: left; vertical-align: top; padding: 12px 14px; border-bottom: 1px solid var(--line); border-right: 1px solid var(--line); font-size: 0.92rem; }
+th:last-child, td:last-child { border-right: 0; }
+tr:last-child td { border-bottom: 0; }
+thead th { background: var(--surface-2); font-family: var(--font-mono); font-size: 0.74rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 500; }
+tbody th { width: 170px; font-weight: 600; font-size: 0.95rem; background: var(--surface); }
+tbody th .dot { display: inline-block; margin-right: 8px; }
+td.hl, th.hl { background: var(--accent-soft); }
+.lvbar { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+
+/* self assessment */
+.sa-grid { display: grid; gap: 14px; }
+.sa-skill { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; display: grid; gap: 12px; }
+.sa-skill h3 { margin: 0; font-size: 1rem; display: flex; align-items: center; gap: 8px; }
+.q { display: grid; gap: 8px; }
+.q p { margin: 0; }
+.opts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+.opts label { border: 1px solid var(--line); border-radius: 8px; padding: 6px 8px; text-align: center; font-size: 0.85rem; cursor: pointer; display: block; line-height: 1.25; }
+.opts input { position: absolute; opacity: 0; pointer-events: none; }
+.opts input:checked + span { font-weight: 600; }
+.opts label:has(input:checked) { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.opts label:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
+.result { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px; display: grid; gap: 12px; }
+.result h3 { margin: 0; font-size: 1rem; }
+.bar { display: grid; grid-template-columns: 150px minmax(0, 1fr) 110px; gap: 12px; align-items: center; font-size: 0.92rem; }
+.track { height: 12px; background: var(--surface-2); border-radius: 6px; overflow: hidden; }
+.fill { height: 100%; width: 0; border-radius: 6px; transition: width 0.25s; }
+.lv { font-family: var(--font-mono); font-size: 0.76rem; color: var(--muted-t); }
+textarea { width: 100%; min-height: 76px; border: 1px solid var(--line); border-radius: 8px; padding: 9px 12px; background: var(--bg); resize: vertical; }
+label.fl { display: grid; gap: 6px; font-weight: 500; }
+.verdict { margin: 0; }
+
+/* team */
+.team-form { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px; display: grid; gap: 12px; }
+.team-form .hint { font-size: 0.85rem; color: var(--muted-t); }
+.groups { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; }
+.group { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px; display: grid; gap: 8px; align-content: start; }
+.group h4 { margin: 0; font-family: var(--font-mono); font-size: 0.74rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted-t); font-weight: 500; }
+.member { display: flex; justify-content: space-between; gap: 10px; border-bottom: 1px solid var(--line); padding-bottom: 6px; }
+.member:last-child { border-bottom: 0; padding-bottom: 0; }
+.member span:last-child { color: var(--accent); font-weight: 500; text-align: right; }
+.roles { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; }
+.roles div { background: var(--surface-2); border-radius: 8px; padding: 10px 12px; font-size: 0.92rem; }
+.roles b { display: block; }
+h2.sec { font-size: 1.1rem; margin: 6px 0 0; }
+
+.toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(18px + env(safe-area-inset-bottom, 0px)); background: var(--ink); color: var(--bg); padding: 9px 16px; border-radius: 8px; font-size: 0.9rem; opacity: 0; pointer-events: none; transition: opacity 0.2s; z-index: 20; }
+.toast.on { opacity: 1; }
+footer { margin-top: 36px; color: var(--muted-t); font-size: 0.85rem; max-width: 70ch; }
+
+@media (max-width: 760px) {
+  summary { grid-template-columns: 48px minmax(0, 1fr); }
+  .grade { font-size: 1.5rem; }
+  .meta { grid-column: 2; text-align: left; display: flex; gap: 12px; flex-wrap: wrap; }
+  .body { grid-template-columns: minmax(0, 1fr); }
+  .bar { grid-template-columns: minmax(0, 1fr) 90px; }
+  .bar .track { grid-column: 1 / -1; grid-row: 2; }
+  .opts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .count { margin-left: 0; width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) { .fill, .chev, .toast { transition: none; } }
+</style>
+
+<div class="wrap">
+  <header class="hero">
+    <div class="eyebrow">Методичний посібник · інформатика · 8–11 класи</div>
+    <h1>Авторські завдання для розвитку soft skills у проєктній діяльності</h1>
+    <p class="lead">Дванадцять проєктних завдань, кожне з метою, ходом роботи, очікуваним результатом, критеріями успіху та запитаннями для рефлексії. До них додано рубрику оцінювання за чотирма рівнями, лист самооцінювання для учня та інструмент розподілу ролей у командах.</p>
+    <div class="stats"><span><b>12</b> завдань</span><span><b>4</b> класи</span><span><b>5</b> навичок</span><span><b>4</b> рівні: початковий, середній, достатній, високий</span></div>
+  </header>
+
+  <div class="tabbar">
+    <div class="tabs" role="tablist" aria-label="Розділи посібника">
+      <button class="tab" role="tab" id="t-tasks" data-tab="tasks" aria-selected="true" aria-controls="p-tasks">Завдання</button>
+      <button class="tab" role="tab" id="t-rubric" data-tab="rubric" aria-selected="false" aria-controls="p-rubric">Рубрика оцінювання</button>
+      <button class="tab" role="tab" id="t-self" data-tab="self" aria-selected="false" aria-controls="p-self">Самооцінювання учня</button>
+      <button class="tab" role="tab" id="t-team" data-tab="team" aria-selected="false" aria-controls="p-team">Ролі в команді</button>
+    </div>
+  </div>
+
+  <section class="panel" id="p-tasks" role="tabpanel" aria-labelledby="t-tasks">
+    <div class="filters">
+      <div class="frow"><span class="flabel">Клас</span><div class="seg" id="gradeSeg"></div></div>
+      <div class="frow"><span class="flabel">Навичка</span><div id="skillChips" class="frow"></div></div>
+      <div class="frow">
+        <input class="search" id="q" type="search" placeholder="Пошук за темою або назвою" aria-label="Пошук завдань">
+        <button class="btn" id="expandAll" type="button">Розгорнути все</button>
+        <button class="btn" id="resetF" type="button">Скинути фільтри</button>
+        <span class="count" id="count" aria-live="polite"></span>
+      </div>
+    </div>
+    <div class="list" id="list"></div>
+    <div class="empty" id="empty" hidden>За цими фільтрами завдань немає. Зніміть одну з навичок або очистіть пошук.</div>
+  </section>
+
+  <section class="panel" id="p-rubric" role="tabpanel" aria-labelledby="t-rubric" hidden>
+    <div class="note"><p>Рубрика описує дії, які можна побачити й зафіксувати під час роботи над проєктом. Оцінюйте навичку за кількома спостереженнями за весь цикл занять, а не за одним уроком. Рівні відповідають чотирирівневій шкалі: початковий, середній, достатній, високий. Натисніть на назву рівня, щоб підсвітити стовпець.</p></div>
+    <div class="tablewrap"><table id="rubric"></table></div>
+    <h2 class="sec">Що саме спостерігати</h2>
+    <div class="roles" id="observe"></div>
+  </section>
+
+  <section class="panel" id="p-self" role="tabpanel" aria-labelledby="t-self" hidden>
+    <div class="note"><p>Учень відповідає на десять тверджень про останній проєкт. Дві відповіді на кожну навичку дають орієнтовний рівень. Результат не є оцінкою. Він потрібен, щоб обрати одну навичку, над якою працювати в наступному проєкті. Відповіді зберігаються лише в цьому браузері.</p></div>
+    <div class="sa-grid" id="saGrid"></div>
+    <div class="result" id="result" aria-live="polite">
+      <h3>Мій профіль за цим проєктом</h3>
+      <div id="bars" class="sa-grid"></div>
+      <p class="verdict" id="verdict"></p>
+    </div>
+    <div class="result">
+      <h3>Рефлексія після проєкту</h3>
+      <label class="fl" for="r1">Що вдалося найкраще і чому?<textarea id="r1"></textarea></label>
+      <label class="fl" for="r2">Що було найскладнішим і як я з цим впорався?<textarea id="r2"></textarea></label>
+      <label class="fl" for="r3">Що я зроблю інакше в наступному проєкті?<textarea id="r3"></textarea></label>
+      <div class="frow"><button class="btn primary" id="copySelf" type="button">Копіювати результат</button><button class="btn" id="resetSelf" type="button">Очистити лист</button></div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-team" role="tabpanel" aria-labelledby="t-team" hidden>
+    <div class="note"><p>Ролі в команді допомагають кожному мати власну відповідальність за спільний результат. Впишіть імена, оберіть розмір групи й розподіліть ролі. Після першого етапу натисніть «Змінити ролі», щоб учні спробували іншу позицію.</p></div>
+    <div class="team-form">
+      <label class="fl" for="names">Список учнів, по одному імені в рядку <span class="hint">(імена нижче є прикладом, замініть їх на свій клас)</span>
+        <textarea id="names" rows="6"></textarea></label>
+      <div class="frow">
+        <label for="gsize" class="flabel" style="min-width:0">Розмір групи</label>
+        <select id="gsize" class="btn"><option value="2">2</option><option value="3">3</option><option value="4" selected>4</option><option value="5">5</option></select>
+        <button class="btn primary" id="deal" type="button">Розподілити</button>
+        <button class="btn" id="rotate" type="button">Змінити ролі</button>
+        <button class="btn" id="copyTeam" type="button">Копіювати розподіл</button>
+      </div>
+    </div>
+    <div class="groups" id="groups"></div>
+    <h2 class="sec">Що робить кожна роль</h2>
+    <div class="roles" id="roleLegend"></div>
+  </section>
+
+  <footer>Завдання розраховані на уроки інформатики за чинними програмами 8–11 класів. Тривалість і форму роботи можна змінювати залежно від класу. У всіх проєктах, де учні публікують матеріали, не використовуються справжні паролі, токени, адреси чи телефони.</footer>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(function () {
+  "use strict";
+  var SK = {
+    crit: { name: "Критичне мислення", c: "var(--k-crit)" },
+    comm: { name: "Комунікація", c: "var(--k-comm)" },
+    team: { name: "Співпраця", c: "var(--k-team)" },
+    creat: { name: "Креативність", c: "var(--k-creat)" },
+    resp: { name: "Відповідальність і самоорганізація", c: "var(--k-resp)" }
+  };
+  var SKORDER = ["crit", "comm", "team", "creat", "resp"];
+  var LEVELS = ["Початковий", "Середній", "Достатній", "Високий"];
+
+  var TASKS = [
+    {
+      grade: 8, title: "Виконавець за інструкцією", topic: "Алгоритми та виконавці", time: "1 урок", form: "пари", skills: ["comm", "crit"],
+      goal: "Навчитися записувати алгоритм так, щоб його однозначно виконав інший учень, і побачити, як неточне формулювання призводить до помилки виконавця.",
+      steps: [
+        "Автор малює на аркуші клітинок просту фігуру, нікому не показує її й записує алгоритм для виконавця. Дозволені команди: «крок вправо», «крок вліво», «крок вгору», «крок вниз», «зафарбувати клітинку».",
+        "Виконавець відтворює фігуру суворо за записом, не бачачи зразка. Питань авторові він не ставить.",
+        "Пара порівнює результат зі зразком і підкреслює команди, через які фігури розійшлися.",
+        "Автор переписує алгоритм, після чого учні міняються ролями.",
+        "Клас спільно формулює три правила точного алгоритму."
+      ],
+      result: "Дві версії алгоритму (початкова й виправлена) та три правила точного алгоритму, сформульовані класом.",
+      criteria: ["Кожну команду можна виконати лише одним способом.", "Фігура, відтворена виконавцем, збігається зі зразком.", "У виправленій версії позначено, що саме змінено і чому."],
+      reflect: ["Яка команда виявилася найбільш неоднозначною?", "Що ти зробив би інакше, знаючи, що виконавець не може перепитати?", "Що ти відчував у ролі виконавця?"],
+      support: "Видати набір готових команд і фігуру 3×3 клітинки.",
+      challenge: "Додати команду повторення й порівняти довжину двох записів одного алгоритму."
+    },
+    {
+      grade: 8, title: "Мій помічник — чатбот", topic: "Створення та початкове налаштування Telegram-бота", time: "2 уроки", form: "індивідуально з взаємною перевіркою", skills: ["comm", "resp", "crit"],
+      goal: "Навчитися планувати діалог із позиції користувача, виконати початкове налаштування Telegram-бота й безпечно поводитися з токеном.",
+      steps: [
+        "Визначити, кому й для чого потрібен бот: названо адресата й одну задачу (нагадування, навчальна підказка, коротка вікторина).",
+        "Накреслити схему діалогу: вітання, меню, передбачені відповіді, завершення.",
+        "Обміняться схемами. «Користувач» проходить діалог лише за схемою й записує, де зупинився або не зрозумів, що робити.",
+        "Внести правки за зауваженнями, а відхилені зауваження пояснити письмово.",
+        "Створити бота через BotFather, задати ім’я, опис і зображення. Обговорити, чим обліковий запис відрізняється від бота з автоматичними відповідями і чому токен не можна пересилати, публікувати чи показувати на скріншотах."
+      ],
+      result: "Схема діалогу з правками, налаштований обліковий запис бота та пояснення, що ще потрібно для автоматичних відповідей.",
+      criteria: ["З будь-якого пункту діалогу можна дійти до завершення.", "Кожне зауваження рецензента враховано або відхилено з поясненням.", "Токен не потрапив у роботу чи на скріншоти."],
+      reflect: ["Яке зауваження однокласника змінило твій задум?", "Де користувач міг би застрягнути, якби ти нічого не змінив?", "Чому токен потрібно зберігати так само ретельно, як пароль?"],
+      support: "Дати шаблон схеми з трьома гілками.",
+      challenge: "Додати гілку для несподіваного повідомлення користувача."
+    },
+    {
+      grade: 8, title: "Скільки важить хвилина звуку?", topic: "Кодування звуку і відео", time: "1 урок", form: "пари", skills: ["crit", "resp"],
+      goal: "З’ясувати, як частота дискретизації, бітова глибина й кількість каналів впливають на обсяг нестисненого звуку, та звикнути перевіряти припущення розрахунком.",
+      steps: [
+        "Передбач. До будь-яких обчислень кожен письмово відповідає, у скільки разів зміниться обсяг даних під час переходу від моно до стерео.",
+        "Дослідити інтерактивну модель «Хвиля → числа», змінюючи лише один параметр за раз.",
+        "Обчислити обсяг для трьох записів з різними параметрами.",
+        "Перевірити передбачення й пояснити розбіжність, якщо вона є.",
+        "Скласти запитання для однокласників, на яке неможливо відповісти лише за тривалістю запису."
+      ],
+      result: "Таблиця з трьома розрахунками, передбачення з поясненням і власне запитання до класу.",
+      criteria: ["За один раз змінюється лише один параметр.", "Розрахунок містить одиниці виміру.", "Пояснення спирається на дані, а не на здогад."],
+      reflect: ["Чи збіглося твоє передбачення з розрахунком?", "Яка умова в задачі найлегше вводить в оману?", "Як перевірити відповідь, не маючи готового розв’язку?"],
+      support: "Видати формулу обсягу з поясненням кожного множника.",
+      challenge: "Оцінити, скільки місця займе подкаст на 40 хвилин за різних налаштувань, і обрати розумний варіант."
+    },
+    {
+      grade: 9, title: "Мій 3D-помічник", topic: "Тривимірна модель і анімація у Blender", time: "4–5 занять", form: "індивідуально, пари або групи", skills: ["creat", "resp", "team"],
+      goal: "Створити модель власного персонажа та коротку анімацію, плануючи роботу від ескізу до готового результату.",
+      steps: [
+        "Описати персонажа: для чого він призначений і яку дію виконуватиме.",
+        "Зробити ескіз і розкадрування на 3–5 ключових кадрів.",
+        "Змоделювати персонажа з простих об’єктів (переміщення, обертання, масштабування, дублювання), налаштувати матеріали, світло й камеру.",
+        "Створити анімацію за ключовими кадрами, звіряючись із розкадруванням.",
+        "Показати результат і пояснити, що довелося змінити після перших спроб."
+      ],
+      result: "Модель, анімація тривалістю 3–5 секунд і журнал змін з трьох записів у форматі «що не вийшло, чому, що змінив».",
+      criteria: ["Анімація відповідає розкадруванню.", "У журналі змін наведено причини, а не лише дії.", "У груповому варіанті окремі частини складаються в одну сцену."],
+      reflect: ["Яка помилка навчила тебе найбільше?", "Що було б складніше, якби ти не зробив ескіз?", "Як ви в команді вирішували, чия ідея піде в сцену?"],
+      support: "Дати набір готових примітивів для тулуба й голови та чек-лист налаштувань камери.",
+      challenge: "Додати другу дію персонажа та зв’язати обидві дії в одну послідовність."
+    },
+    {
+      grade: 9, title: "Бюджет класної поїздки", topic: "Електронні таблиці: формули й діаграми", time: "2 уроки", form: "групи по 3–4", skills: ["crit", "team"],
+      goal: "Скласти таблицю бюджету з формулами, перевірити її на крайніх значеннях і обґрунтувати вибір перед класом.",
+      steps: [
+        "Група отримує умови: ліміт витрат на одного учня, кількість учасників і три напрямки поїздки.",
+        "Розподіляють ролі: хто веде таблицю, хто шукає ціни (з підписаним джерелом), хто перевіряє формули.",
+        "Будують таблицю: вхідні дані окремо від розрахунків, підсумки лише формулами.",
+        "Перевіряють таблицю: змінюють кількість учасників на 1 і на 40 та оцінюють, чи результати логічні.",
+        "Будують діаграму й пишуть три речення з рекомендацією для класу."
+      ],
+      result: "Таблиця з формулами, діаграма та рекомендація з посиланнями на джерела цін.",
+      criteria: ["У формулах немає чисел, введених вручну.", "Кожна ціна має джерело.", "Перевірку на крайніх значеннях виконано й записано."],
+      reflect: ["Яку помилку в таблиці знайшов не автор, а перевіряльник?", "Як ви домовлялися, коли групі подобалися різні напрямки?", "Який висновок змінився б, якби ліміт зменшився на 20%?"],
+      support: "Дати заготовку таблиці із заповненими назвами стовпців.",
+      challenge: "Додати змінну «непередбачені витрати» та показати, за якого значення бюджет перестає вкладатися в ліміт."
+    },
+    {
+      grade: 9, title: "Кампанія «Надійний пароль»", topic: "Інформаційна безпека: паролі та двоетапна перевірка", time: "2 уроки", form: "групи по 4", skills: ["comm", "creat", "team"],
+      goal: "Підготувати для молодших школярів матеріал про безпечні паролі, добираючи форму й мову під аудиторію.",
+      steps: [
+        "Визначити аудиторію (наприклад, 5 клас) і одну головну пораду, яку вона має запам’ятати.",
+        "Знайти правила створення паролів у двох незалежних джерелах і звірити їх.",
+        "Обрати формат: плакат, відео до 60 секунд або міні-гру, і пояснити вибір.",
+        "Протестувати матеріал на двох представниках аудиторії й записати, що вони не зрозуміли.",
+        "Доопрацювати матеріал і представити його класові."
+      ],
+      result: "Готовий матеріал і коротка нотатка «що показало тестування й що ми змінили».",
+      criteria: ["Головна порада вміщується в одне речення.", "Матеріал зрозумілий представникові аудиторії без додаткових пояснень.", "Жоден приклад не містить справжніх паролів."],
+      reflect: ["Що виявилося незрозумілим для молодших учнів?", "Чия ідея в команді найбільше вплинула на результат і чому?", "Яку пораду з матеріалу ти сам почав застосовувати?"],
+      support: "Дати перелік із п’яти перевірених порад, з яких група обирає одну.",
+      challenge: "Додати міні-тест із трьох запитань, який показує, чи засвоїли аудиторія пораду."
+    },
+    {
+      grade: 10, title: "Історія систем числення", topic: "Поняття системи числення. Системи числення", time: "1–2 уроки", form: "пари або групи", skills: ["crit", "team"],
+      goal: "Дослідити історичну систему числення (вавилонську, майя, давньоєгипетську, римську або трійкову) та представити результат у цифровому форматі.",
+      steps: [
+        "Обрати систему й погодити план, розподіливши обов’язки.",
+        "Зібрати факти принаймні з двох джерел і відібрати п’ять найважливіших.",
+        "Скласти три приклади запису чисел, які перевіряє інший учасник групи.",
+        "Оформити результат: презентація на 8–10 слайдів, вебсторінка або інтерактивний матеріал.",
+        "Провести перехресну перевірку частин і сформулювати спільний висновок."
+      ],
+      result: "Цифровий матеріал із пояснення особливостей системи, прикладами запису чисел і висновком.",
+      criteria: ["Кожен факт підтверджено джерелом.", "Приклади запису чисел перевірено іншим учасником.", "Частини роботи узгоджені й не суперечать одна одній."],
+      reflect: ["Які факти ви відкинули і чому?", "Хто перевіряв вашу частину й що він знайшов?", "Чим ця система зручніша або незручніша за десяткову?"],
+      support: "Дати два перевірені джерела й шаблон слайда.",
+      challenge: "Порівняти обрану систему з двійковою та визначити, чому комп’ютери використовують саме її."
+    },
+    {
+      grade: 10, title: "Мова і технології", topic: "Інфографіка та візуальні матеріали в онлайн-сервісах", time: "2 уроки", form: "індивідуально, пари або групи", skills: ["creat", "crit", "comm"],
+      goal: "Перетворити великий обсяг інформації на коротке повідомлення у формі інфографіки, постера або логотипа.",
+      steps: [
+        "Обрати тему (українська мова в чатах, локалізація ігор, мовні застосунки, штучний інтелект і спілкування) та сформулювати головну думку одним реченням.",
+        "Знайти й перевірити від трьох до п’яти фактів, записати джерела.",
+        "Обрати формат і пояснити, чому він підходить саме цій думці.",
+        "Створити матеріал у Canva, Infogram, Easelly, Venngage або іншому сервісі.",
+        "Тест «5 секунд»: показати роботу однокласникові на п’ять секунд і запитати, що він запам’ятав. Доопрацювати за результатом."
+      ],
+      result: "Візуальний матеріал із перевіреними фактами та вказаними джерелами.",
+      criteria: ["Головну думку зрозуміло за п’ять секунд.", "Джерела вказано, зображення мають дозвіл на використання.", "Декоративні елементи не заважають змісту."],
+      reflect: ["Що ти прибрав із матеріалу і чому?", "Що однокласник запам’ятав після п’яти секунд?", "Яка інформація потребувала найретельнішої перевірки?"],
+      support: "Дати готовий макет із трьома блоками, які треба наповнити.",
+      challenge: "Створити дві версії для різної аудиторії й пояснити відмінності."
+    },
+    {
+      grade: 10, title: "Діаграма, що вводить в оману", topic: "Діаграми та аналіз даних", time: "1 урок", form: "пари", skills: ["crit", "comm"],
+      goal: "Навчитися помічати спотворення в діаграмах і давати конструктивний відгук автору.",
+      steps: [
+        "Пара отримує три діаграми з типовими вадами: обрізана вісь, непропорційний масштаб, вибіркові дані.",
+        "Для кожної діаграми знайти, що саме спотворює уявлення читача, і записати це одним реченням.",
+        "Відтворити коректну діаграму з тих самих даних у таблиці.",
+        "Написати відгук автору за схемою «що добре, що змінити, чому».",
+        "Обмінятися відгуками з іншою парою та врахувати зауваження."
+      ],
+      result: "Три виправлені діаграми та один письмовий відгук автору.",
+      criteria: ["Для кожної діаграми названо конкретну ваду.", "Виправлена діаграма не змінює суті даних.", "Відгук містить і позитивне спостереження, і пропозицію зміни."],
+      reflect: ["Яке спотворення найважче помітити?", "Що змінилося б у висновку після виправлення?", "Як ти зрозумів, що відгук був корисним?"],
+      support: "Дати чек-лист із чотирьох запитань до діаграми.",
+      challenge: "Знайти діаграму з медіа чи реклами, проаналізувати її та запропонувати чесний варіант."
+    },
+    {
+      grade: 11, title: "Сайт-резюме", topic: "Вебтехнології: HTML, CSS, проєктування в Figma", time: "4–5 занять", form: "індивідуально", skills: ["resp", "creat", "comm"],
+      goal: "Створити сайт-резюме як цифровий продукт для самопрезентації й навчитися оцінювати власну роботу очима користувача.",
+      steps: [
+        "Визначити адресата (приймальна комісія, роботодавець, наставник) та добрати інформацію про себе: досягнення, проєкти, волонтерство, інтереси.",
+        "Створити макет у Figma: блоки, кольори, шрифти.",
+        "Реалізувати макет у HTML і CSS, перевірити відображення й внести зміни.",
+        "Тест користувача: однокласник за 10 секунд має знайти контакт і головне досягнення. Записати, що він шукав довше.",
+        "Доопрацювати сайт і захистити структуру та вибір засобів оформлення."
+      ],
+      result: "Працюючий сайт-резюме й коротке пояснення, чому він побудований саме так.",
+      criteria: ["Адресата названо, і вміст відповідає його потребам.", "Ключову інформацію знайдено за десять секунд.", "Зображення й шрифти мають дозвіл на використання, а особисті контакти не розкривають зайвого."],
+      reflect: ["Що ти додав би або прибрав, зваживши на адресата?", "Де тест користувача показав слабке місце?", "Яку частину роботи ти вперше зробив без підказок?"],
+      support: "Дати покрокову інструкцію для базової структури сторінки.",
+      challenge: "Додати адаптивність для телефона й перевірити сайт на трьох розмірах екрана."
+    },
+    {
+      grade: 11, title: "Замовник і розробник", topic: "Проєктування вебресурсу за вимогами замовника", time: "5–6 занять", form: "команди по 4", skills: ["team", "comm", "resp"],
+      goal: "Пройти повний цикл від вимог замовника до приймання результату й відпрацювати командні домовленості.",
+      steps: [
+        "Замовником може бути вчитель, інший клас, шкільна бібліотека чи гурток. Команда проводить інтерв’ю й записує 5–7 вимог.",
+        "Розподіляють ролі та складають план із трьома віхами й датами.",
+        "Розробляють продукт у два етапи. Після кожного проводять демонстрацію замовнику й записують зауваження.",
+        "Приймання: замовник відзначає для кожної вимоги «виконано», «частково» або «ні».",
+        "Ретроспектива: що спрацювало, що ні, що змінити в наступному проєкті."
+      ],
+      result: "Перелік вимог, план із віхами, готовий продукт та акт приймання у вигляді таблиці вимог.",
+      criteria: ["Кожну вимогу сформульовано так, що її можна перевірити.", "Зауваження після демонстрацій враховано або відхилено з поясненням.", "Кожен учасник може назвати свій внесок у результат."],
+      reflect: ["Яка вимога змінилася в процесі роботи і чому?", "Як ви діяли, коли не встигали до віхи?", "Що ви відповіли б замовникові, який просить змінити вимогу наприкінці?"],
+      support: "Дати шаблон інтерв’ю з десятьма запитаннями до замовника.",
+      challenge: "Ввести пріоритети вимог і домовитися із замовником, які можна відкласти."
+    },
+    {
+      grade: 11, title: "Клуб розбору коду", topic: "Програмування: тестування й налагодження", time: "2 уроки", form: "трійки", skills: ["crit", "comm", "resp"],
+      goal: "Навчитися перевіряти чужий код за тестами й давати відгук, який допомагає автору виправити програму.",
+      steps: [
+        "Кожен пише невелику програму за заданою умовою (наприклад, обробка списку оцінок) і п’ять тестів, серед яких є крайні випадки.",
+        "Учні міняються програмами. Рецензент запускає тести та читає код за чек-листом: імена змінних, повтори, обробка некоректного вводу.",
+        "Рецензент пише відгук за схемою «що добре, що змінити, чому».",
+        "Автор виправляє програму й веде журнал помилок: тип, причина, як знайшов.",
+        "Клас складає перелік трьох найпоширеніших помилок і способів їх уникати."
+      ],
+      result: "Програма з набором тестів, письмовий відгук та журнал помилок.",
+      criteria: ["Серед тестів є крайній випадок і некоректний ввід.", "Відгук вказує на конкретний рядок або поведінку.", "У журналі помилок для кожної вказано причину, а не лише виправлення."],
+      reflect: ["Яку помилку ти не помітив би без чужих тестів?", "Який відгук допоміг тобі найбільше і чому?", "Як змінилося б твоє письмо коду, якби рецензент був заздалегідь відомий?"],
+      support: "Дати чек-лист рецензента з п’яти пунктів і приклад відгуку.",
+      challenge: "Додати автоматичний запуск тестів однією командою."
+    }
+  ];
+
+  var RUBRIC = {
+    crit: ["Приймає інформацію без перевірки; виконує завдання лише за зразком.", "Перевіряє інформацію за підказкою вчителя; помилку помічає, коли на неї вказали.", "Звіряє кілька джерел; пояснює, чому обрав це рішення; сам знаходить типові помилки.", "Порівнює варіанти, наводить аргументи й контраргументи; передбачає, де рішення може не спрацювати, і перевіряє це."],
+    comm: ["Відповідає односкладово; показує готове, але не може пояснити, що зроблено.", "Пояснює свою частину за планом або запитаннями; слухає, але рідко уточнює.", "Чітко пояснює задум для адресата; ставить уточнювальні запитання; дає зауваження по суті.", "Адаптує подання до аудиторії; дає відгук із пропозицією змін; веде обговорення."],
+    team: ["Працює поруч, але окремо; ролі приймає без обговорення або ігнорує.", "Виконує свою роль, коли її призначили; погоджується з рішенням групи.", "Бере роль за домовленістю; допомагає; дотримується спільних правил.", "Допомагає знайти компроміс; помічає, кому потрібна допомога; поєднує окремі частини в ціле."],
+    creat: ["Відтворює зразок без змін.", "Змінює зразок у деталях: колір, назва, порядок.", "Пропонує власний задум і пояснює, чому він підходить користувачеві.", "Поєднує ідеї з різних сфер; пробує кілька варіантів і обирає найкращий, наводячи аргументи."],
+    resp: ["Потребує нагадувань про терміни; здає роботу незавершеною.", "Працює за графіком за підтримки вчителя; помилки виправляє після зауважень.", "Планує кроки й дотримується термінів; виправляє помилки без нагадувань.", "Веде власний план; оцінює ризики; доводить роботу до якості, яку сам визначив; допомагає іншим укластися в терміни."]
+  };
+  var OBSERVE = {
+    crit: "Чи звіряє джерела? Чи пояснює вибір? Чи шукає причину помилки, а не лише виправляє результат?",
+    comm: "Чи зрозуміє його пояснення той, хто бачить роботу вперше? Чи ставить уточнювальні запитання? Чи відгук містить конкретну пропозицію?",
+    team: "Чи виконує узяте на себе? Як діє, коли думки розходяться? Чи допомагає, коли в іншого не виходить?",
+    creat: "Чи є власний задум? Скільки варіантів він пробував? Чи може пояснити, навіщо зробив саме так?",
+    resp: "Чи пам’ятає про терміни без нагадувань? Чи веде план і журнал змін? Що робить, коли щось не виходить?"
+  };
+  var SELF = {
+    crit: ["Перш ніж використати інформацію, я перевіряю її принаймні за двома джерелами.", "Я можу пояснити, чому обрав саме це рішення, а не інше."],
+    comm: ["Я пояснюю свою роботу так, щоб її зрозумів той, хто бачить її вперше.", "Даючи відгук, я називаю, що добре, що змінити і чому."],
+    team: ["Я виконую те, що пообіцяв команді, у домовлений термін.", "Коли думки розходяться, я шукаю рішення, яке влаштує всіх, а не лише мене."],
+    creat: ["Я пропоную власний задум замість того, щоб повторювати зразок.", "Перш ніж обрати варіант, я пробую хоча б два."],
+    resp: ["Я розбиваю роботу на кроки й сам стежу за термінами.", "Помилку я шукаю й виправляю сам, не чекаючи, поки на неї вкажуть."]
+  };
+  var FREQ = ["Майже ніколи", "Іноді", "Часто", "Майже завжди"];
+  var ROLES = [
+    { n: "Координатор", d: "Стежить за планом і термінами, нагадує команді про домовленості, першим помічає, що відстаємо." },
+    { n: "Дослідник", d: "Шукає інформацію, звіряє джерела, фіксує, звідки взято кожен факт." },
+    { n: "Автор", d: "Створює основну частину продукту й відповідає за її якість." },
+    { n: "Тестувальник", d: "Перевіряє результат очима користувача й записує, що було незрозуміло." },
+    { n: "Спікер", d: "Представляє результат класові й відповідає на запитання, спираючись на записи команди." }
+  ];
+  var ROLESETS = { 1: [0, 2, 3], 2: [2, 3], 3: [0, 2, 3], 4: [0, 1, 2, 3], 5: [0, 1, 2, 3, 4] };
+
+  function $(id) { return document.getElementById(id); }
+  function el(tag, cls, html) { var e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; }
+  function store(k, v) { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) {} return null; }
+  var toastT;
+  function toast(m) { var t = $("toast"); t.textContent = m; t.classList.add("on"); clearTimeout(toastT); toastT = setTimeout(function () { t.classList.remove("on"); }, 1800); }
+  function copyText(text) {
+    var done = function () { toast("Скопійовано"); };
+    var fallback = function () {
+      var ta = document.createElement("textarea"); ta.value = text; ta.setAttribute("readonly", ""); ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand("copy"); done(); } catch (e) { toast("Не вдалося скопіювати. Виділіть текст вручну."); }
+      document.body.removeChild(ta);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, fallback); else fallback();
+  }
+  function chipHTML(k) { return '<span class="chip"><span class="dot" style="background:' + SK[k].c + '"></span>' + SK[k].name + "</span>"; }
+
+  /* tabs */
+  var tabs = Array.prototype.slice.call(document.querySelectorAll(".tab"));
+  function showTab(name) {
+    tabs.forEach(function (t) {
+      var on = t.getAttribute("data-tab") === name;
+      t.setAttribute("aria-selected", on ? "true" : "false");
+      $("p-" + t.getAttribute("data-tab")).hidden = !on;
+    });
+    try { history.replaceState(null, "", "#" + name); } catch (e) {}
+  }
+  tabs.forEach(function (t) { t.addEventListener("click", function () { showTab(t.getAttribute("data-tab")); }); });
+  var h = (location.hash || "").replace("#", "");
+  if (["tasks", "rubric", "self", "team"].indexOf(h) > -1) showTab(h);
+
+  /* tasks */
+  var state = { grade: 0, skills: {}, q: "" };
+  var gradeSeg = $("gradeSeg");
+  [0, 8, 9, 10, 11].forEach(function (g) {
+    var b = el("button", null, g ? g : "Усі"); b.type = "button"; b.setAttribute("data-g", g);
+    b.setAttribute("aria-pressed", g === 0 ? "true" : "false");
+    b.addEventListener("click", function () { state.grade = g; Array.prototype.forEach.call(gradeSeg.children, function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); }); apply(); });
+    gradeSeg.appendChild(b);
+  });
+  SKORDER.forEach(function (k) {
+    var b = el("button", "chipbtn", '<span class="dot" style="background:' + SK[k].c + '"></span>' + SK[k].name);
+    b.type = "button"; b.setAttribute("aria-pressed", "false");
+    b.addEventListener("click", function () { state.skills[k] = !state.skills[k]; b.setAttribute("aria-pressed", state.skills[k] ? "true" : "false"); apply(); });
+    $("skillChips").appendChild(b);
+  });
+
+  var list = $("list");
+  var cards = TASKS.map(function (t, i) {
+    var d = el("details", "task");
+    var sum = el("summary", null,
+      '<div class="grade">' + t.grade + "<small>клас</small></div>" +
+      '<div><div class="ttl">' + t.title + '</div><div class="topic">' + t.topic + "</div></div>" +
+      '<div class="meta"><span>' + t.time + "</span><span>" + t.form + '</span><span class="chev">›</span></div>' +
+      '<div class="skills">' + t.skills.map(chipHTML).join("") + "</div>");
+    d.appendChild(sum);
+    var b = el("div", "body");
+    var left = el("div", "col"), right = el("div", "col");
+    left.appendChild(el("div", "blk", "<h4>Мета</h4><p>" + t.goal + "</p>"));
+    left.appendChild(el("div", "blk", "<h4>Хід роботи</h4><ol>" + t.steps.map(function (s) { return "<li>" + s + "</li>"; }).join("") + "</ol>"));
+    left.appendChild(el("div", "blk", "<h4>Очікуваний результат</h4><p>" + t.result + "</p>"));
+    right.appendChild(el("div", "blk", "<h4>Критерії успіху</h4><ul class=\"checks\">" + t.criteria.map(function (c, j) { var id = "c" + i + "_" + j; return '<li><label for="' + id + '"><input type="checkbox" id="' + id + '"><span>' + c + "</span></label></li>"; }).join("") + "</ul>"));
+    right.appendChild(el("div", "blk", "<h4>Питання для рефлексії</h4><ul>" + t.reflect.map(function (r) { return "<li>" + r + "</li>"; }).join("") + "</ul>"));
+    right.appendChild(el("div", "blk", '<h4>Диференціація</h4><div class="diff"><div><b>Потрібна підтримка.</b> ' + t.support + "</div><div><b>Додатковий виклик.</b> " + t.challenge + "</div></div>"));
+    b.appendChild(left); b.appendChild(right);
+    var act = el("div", "actions");
+    var cp = el("button", "btn primary", "Копіювати завдання"); cp.type = "button";
+    cp.addEventListener("click", function () { copyText(taskText(t)); });
+    act.appendChild(cp); b.appendChild(act);
+    d.appendChild(b);
+    list.appendChild(d);
+    return d;
+  });
+  function taskText(t) {
+    var s = SK;
+    return t.title + " (" + t.grade + " клас)\nТема: " + t.topic + "\nТривалість: " + t.time + ". Форма роботи: " + t.form + ".\nНавички: " + t.skills.map(function (k) { return s[k].name; }).join(", ") +
+      "\n\nМета: " + t.goal + "\n\nХід роботи:\n" + t.steps.map(function (x, i) { return (i + 1) + ". " + x; }).join("\n") +
+      "\n\nОчікуваний результат: " + t.result + "\n\nКритерії успіху:\n" + t.criteria.map(function (x) { return "- " + x; }).join("\n") +
+      "\n\nПитання для рефлексії:\n" + t.reflect.map(function (x) { return "- " + x; }).join("\n") +
+      "\n\nПідтримка: " + t.support + "\nВиклик: " + t.challenge;
+  }
+  function apply() {
+    var active = SKORDER.filter(function (k) { return state.skills[k]; });
+    var q = state.q.trim().toLowerCase(), shown = 0;
+    TASKS.forEach(function (t, i) {
+      var ok = (!state.grade || t.grade === state.grade) &&
+        (!active.length || active.some(function (k) { return t.skills.indexOf(k) > -1; })) &&
+        (!q || (t.title + " " + t.topic + " " + t.goal).toLowerCase().indexOf(q) > -1);
+      cards[i].hidden = !ok; if (ok) shown++;
+    });
+    $("count").textContent = "Показано " + shown + " з " + TASKS.length;
+    $("empty").hidden = shown > 0;
+  }
+  $("q").addEventListener("input", function (e) { state.q = e.target.value; apply(); });
+  $("resetF").addEventListener("click", function () {
+    state = { grade: 0, skills: {}, q: "" }; $("q").value = "";
+    Array.prototype.forEach.call(gradeSeg.children, function (x) { x.setAttribute("aria-pressed", x.getAttribute("data-g") === "0" ? "true" : "false"); });
+    Array.prototype.forEach.call($("skillChips").children, function (x) { x.setAttribute("aria-pressed", "false"); });
+    apply();
+  });
+  var allOpen = false;
+  $("expandAll").addEventListener("click", function () {
+    allOpen = !allOpen; cards.forEach(function (c) { c.open = allOpen; });
+    $("expandAll").textContent = allOpen ? "Згорнути все" : "Розгорнути все";
+  });
+  apply();
+
+  /* rubric */
+  var tbl = $("rubric"), sel = -1;
+  var head = "<thead><tr><th>Навичка</th>" + LEVELS.map(function (l, i) { return '<th data-lv="' + i + '" style="cursor:pointer">' + l + "</th>"; }).join("") + "</tr></thead>";
+  var rows = SKORDER.map(function (k) {
+    return '<tr><th scope="row"><span class="dot" style="background:' + SK[k].c + '"></span>' + SK[k].name + "</th>" + RUBRIC[k].map(function (c, i) { return '<td data-lv="' + i + '">' + c + "</td>"; }).join("") + "</tr>";
+  }).join("");
+  tbl.innerHTML = head + "<tbody>" + rows + "</tbody>";
+  tbl.querySelectorAll("thead th[data-lv]").forEach(function (th) {
+    th.addEventListener("click", function () {
+      var lv = +th.getAttribute("data-lv"); sel = sel === lv ? -1 : lv;
+      tbl.querySelectorAll("[data-lv]").forEach(function (c) { c.classList.toggle("hl", +c.getAttribute("data-lv") === sel); });
+    });
+  });
+  SKORDER.forEach(function (k) {
+    $("observe").appendChild(el("div", null, "<b>" + SK[k].name + "</b>" + OBSERVE[k]));
+  });
+
+  /* self assessment */
+  var ans = {};
+  try { ans = JSON.parse(store("sa-ans") || "{}") || {}; } catch (e) { ans = {}; }
+  var grid = $("saGrid");
+  SKORDER.forEach(function (k) {
+    var box = el("div", "sa-skill", '<h3><span class="dot" style="background:' + SK[k].c + '"></span>' + SK[k].name + "</h3>");
+    SELF[k].forEach(function (txt, qi) {
+      var name = "q_" + k + "_" + qi;
+      var q = el("div", "q"); q.appendChild(el("p", null, txt));
+      var o = el("div", "opts");
+      FREQ.forEach(function (f, fi) {
+        var id = name + "_" + fi;
+        var lab = el("label", null, '<input type="radio" name="' + name + '" id="' + id + '" value="' + (fi + 1) + '"><span>' + f + "</span>");
+        var inp = lab.querySelector("input");
+        if (ans[name] === fi + 1) inp.checked = true;
+        inp.addEventListener("change", function () { ans[name] = fi + 1; store("sa-ans", JSON.stringify(ans)); renderSelf(); });
+        o.appendChild(lab);
+      });
+      q.appendChild(o); box.appendChild(q);
+    });
+    grid.appendChild(box);
+  });
+  function levelOf(v) { return v < 1.75 ? 0 : v < 2.5 ? 1 : v < 3.25 ? 2 : 3; }
+  function profile() {
+    return SKORDER.map(function (k) {
+      var vals = SELF[k].map(function (_, qi) { return ans["q_" + k + "_" + qi]; }).filter(Boolean);
+      var avg = vals.length ? vals.reduce(function (a, b) { return a + b; }, 0) / vals.length : 0;
+      return { k: k, n: vals.length, avg: avg };
+    });
+  }
+  function renderSelf() {
+    var p = profile(), bars = $("bars"); bars.innerHTML = "";
+    var answered = 0;
+    p.forEach(function (r) {
+      answered += r.n;
+      var row = el("div", "bar", "<span>" + SK[r.k].name + '</span><span class="track"><span class="fill" style="display:block;background:' + SK[r.k].c + ";width:" + (r.avg / 4 * 100) + '%"></span></span><span class="lv">' + (r.n ? LEVELS[levelOf(r.avg)] : "немає відповідей") + "</span>");
+      bars.appendChild(row);
+    });
+    var v = $("verdict");
+    if (answered < 10) { v.textContent = "Заповнено " + answered + " з 10 тверджень. Підсумок з’явиться, коли відповіді буде дано на всі."; return; }
+    var sorted = p.slice().sort(function (a, b) { return b.avg - a.avg; });
+    var top = sorted[0], low = sorted[sorted.length - 1];
+    v.textContent = top.avg === low.avg
+      ? "Усі навички оцінено однаково. Оберіть одну з них і поставте собі конкретну мету на наступний проєкт."
+      : "Найсильніша сторона: " + SK[top.k].name.toLowerCase() + ". Над чим працювати в наступному проєкті: " + SK[low.k].name.toLowerCase() + ".";
+  }
+  ["r1", "r2", "r3"].forEach(function (id) {
+    var t = $(id); var s = store("sa-" + id); if (s) t.value = s;
+    t.addEventListener("input", function () { store("sa-" + id, t.value); });
+  });
+  $("copySelf").addEventListener("click", function () {
+    var p = profile();
+    var txt = "Самооцінювання навичок після проєкту\n" + p.map(function (r) { return "- " + SK[r.k].name + ": " + (r.n ? LEVELS[levelOf(r.avg)] : "немає відповідей"); }).join("\n") +
+      "\n\n" + $("verdict").textContent + "\n\nЩо вдалося найкраще: " + $("r1").value + "\nЩо було найскладнішим: " + $("r2").value + "\nЩо зроблю інакше: " + $("r3").value;
+    copyText(txt);
+  });
+  $("resetSelf").addEventListener("click", function () {
+    ans = {}; store("sa-ans", "{}");
+    grid.querySelectorAll("input[type=radio]").forEach(function (i) { i.checked = false; });
+    ["r1", "r2", "r3"].forEach(function (id) { $(id).value = ""; store("sa-" + id, ""); });
+    renderSelf();
+  });
+  renderSelf();
+
+  /* team */
+  var names = $("names");
+  names.value = "Олена\nМаксим\nСофія\nАртем\nДарина\nІван\nМарія\nДанило\nЯрослава\nТимофій";
+  var rot = 0, lastGroups = [];
+  ROLES.forEach(function (r) { $("roleLegend").appendChild(el("div", null, "<b>" + r.n + "</b>" + r.d)); });
+  function shuffle(a) { for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+  function deal() {
+    var ppl = names.value.split("\n").map(function (s) { return s.trim(); }).filter(Boolean);
+    var size = +$("gsize").value;
+    if (!ppl.length) { $("groups").innerHTML = '<div class="empty">Додайте хоча б одне ім’я.</div>'; lastGroups = []; return; }
+    shuffle(ppl);
+    var n = Math.max(1, Math.round(ppl.length / size)), gs = [];
+    for (var i = 0; i < n; i++) gs.push([]);
+    ppl.forEach(function (p, i) { gs[i % n].push(p); });
+    lastGroups = gs; rot = 0; draw();
+  }
+  function draw() {
+    var box = $("groups"); box.innerHTML = "";
+    lastGroups.forEach(function (g, gi) {
+      var set = ROLESETS[Math.min(g.length, 5)] || ROLESETS[5];
+      var c = el("div", "group", "<h4>Група " + (gi + 1) + " · " + g.length + "</h4>");
+      g.forEach(function (name, i) {
+        var role = ROLES[set[(i + rot) % set.length]].n;
+        c.appendChild(el("div", "member", "<span>" + name + "</span><span>" + role + "</span>"));
+      });
+      box.appendChild(c);
+    });
+  }
+  $("deal").addEventListener("click", deal);
+  $("rotate").addEventListener("click", function () { if (!lastGroups.length) { deal(); return; } rot++; draw(); });
+  $("copyTeam").addEventListener("click", function () {
+    if (!lastGroups.length) { toast("Спочатку розподіліть групи"); return; }
+    var txt = lastGroups.map(function (g, gi) {
+      var set = ROLESETS[Math.min(g.length, 5)] || ROLESETS[5];
+      return "Група " + (gi + 1) + "\n" + g.map(function (n, i) { return "  " + n + " — " + ROLES[set[(i + rot) % set.length]].n; }).join("\n");
+    }).join("\n\n");
+    copyText(txt);
+  });
+  deal();
+})();
+</script>
+
+</body></html>
